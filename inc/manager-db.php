@@ -66,5 +66,80 @@ function getContinent(){
     return $pdo->query($query)->fetchAll();
 }
 function getCapitale($num) {
-    
+    global $pdo;
+    $query = 'SELECT Name  FROM `City` where id = :id ;';
+    $prep = $pdo->prepare($query);
+    $prep->bindValue(':id', $num, PDO::PARAM_STR);
+    $prep->execute();
+    return $prep->fetch();
+}
+function getDetail($num) {
+    global $pdo;
+    $query = 'SELECT *  FROM `Country` where id = :id ;';
+    $prep = $pdo->prepare($query);
+    $prep->bindValue(':id', $num, PDO::PARAM_STR);
+    $prep->execute();
+    return $prep->fetch();
+}
+function getlangue($num) {
+    global $pdo;
+    $query = "SELECT Language.Name FROM Language,CountryLanguage
+    where CountryLanguage.idLanguage=Language.id
+    and CountryLanguage.idCountry = $num
+    and CountryLanguage.IsOfficial=\"T\"";
+    //echo $query;
+    return $pdo->query($query)->fetch();
+}
+function getPaysName($name)
+{
+    global $pdo;
+    $query = "SELECT * FROM Country WHERE Name = '$name';";
+    return $pdo->query($query)->fetch();
+}
+function nameLanguage($id) {
+    global $pdo;
+    $query = 'SELECT Name FROM `Language` WHERE id = :id;';
+    $prep = $pdo->prepare($query);
+    $prep->bindValue(':id', $id, PDO::PARAM_INT);
+    $prep->execute();
+    return $prep->fetchColumn(); // Retourne directement la valeur
+}
+function addInfo($idPays, $population, $pnb, $chefEtat, $esperanceDeVie) {
+    global $pdo;
+    $population = (int) $population;
+    $requete = "UPDATE Country SET Population = :population, GNP = :pnb, HeadOfState = :chefEtat, LifeExpectancy = :esperance WHERE id = :id";
+    try {
+        $prep = $pdo->prepare($requete);
+        $prep->bindValue(':population', $population, PDO::PARAM_INT);
+        $prep->bindValue(':pnb', $pnb, PDO::PARAM_STR);
+        $prep->bindValue(':chefEtat', $chefEtat, PDO::PARAM_STR);
+        $prep->bindValue(':esperance', $esperanceDeVie, PDO::PARAM_STR);
+        $prep->bindValue(':id', $idPays, PDO::PARAM_INT);
+        $prep->execute();
+    } catch (Exception $e) {
+        die("Erreur dans la requête : " . $e->getMessage());
+    }
+}
+function percentageLanguage($id){
+    global $pdo;
+    $query = 'SELECT idLanguage, Percentage FROM `CountryLanguage` WHERE idCountry = :id ORDER BY Percentage DESC;';
+    $prep = $pdo->prepare($query);
+    $prep->bindValue(':id', $id, PDO::PARAM_INT);
+    $prep->execute();
+    return $prep->fetchAll();
+}
+function getVillesParPays($pays)
+{
+    global $pdo;
+    $query = "
+        SELECT City.Name AS City_Name, City.Population 
+        FROM City
+        INNER JOIN Country ON City.idCountry = Country.id
+        WHERE Country.Name = :Country
+        ORDER BY City.Population DESC
+    ";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute(['Country' => $pays]);
+
+    return $stmt->fetchAll(PDO::FETCH_OBJ);  // Retourne un tableau d'objets
 }

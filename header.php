@@ -50,7 +50,7 @@ $lesPays = getAllCountries();
 <body class="d-flex flex-column h-100">
 <header>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="index.php">GeoWorld</a>
+    <a class="navbar-brand" href="mapWorld.php">GeoWorld</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -59,7 +59,7 @@ $lesPays = getAllCountries();
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="index2.php">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
@@ -81,11 +81,14 @@ $lesPays = getAllCountries();
               aria-expanded="false">Pays</a>
               <div class="dropdown-menu" aria-labelledby="dropdown01">
               <?php foreach($lesPays as $pays) : ?>
-              <a class="dropdown-item" href="index2.php?name=<?= $pays->id ; ?>"><?= $pays->Name; ?> </a>
+              <a class="dropdown-item" href="index3.php?id=<?= $pays->id ; ?>"><?= $pays->Name; ?> </a>
               <?php endforeach ; ?>
               </div>
               </li>
           
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="villes.php">Les villes les plus peuplées <span class="sr-only">(current)</span></a>
         </li>
      
       </ul>
