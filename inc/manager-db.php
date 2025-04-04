@@ -128,18 +128,17 @@ function percentageLanguage($id){
     $prep->execute();
     return $prep->fetchAll();
 }
-function getVillesParPays($pays)
-{
-    global $pdo;
-    $query = "
-        SELECT City.Name AS City_Name, City.Population 
-        FROM City
-        INNER JOIN Country ON City.idCountry = Country.id
-        WHERE Country.Name = :Country
-        ORDER BY City.Population DESC
-    ";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute(['Country' => $pays]);
 
-    return $stmt->fetchAll(PDO::FETCH_OBJ);  // Retourne un tableau d'objets
+function getVilles($id){
+    global $pdo;
+    $query = 'SELECT Name, Population, District FROM `City` WHERE idCountry = :id;';
+    $prep = $pdo->prepare($query);
+    $prep->bindValue(':id', $id, PDO::PARAM_INT);
+    $prep->execute();
+    return $prep->fetchAll();
 }
+function getEsperance(){
+    global $pdo;
+    $query = 'SELECT Name,LifeExpectancy FROM `Country`
+                order BY LifeExpectancy DESC;';
+    return $pdo->query($query)->fetchAll();}

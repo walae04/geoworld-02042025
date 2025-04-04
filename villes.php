@@ -16,41 +16,36 @@
 <?php  require_once 'header.php'; ?>
 <?php
 require_once 'inc/manager-db.php';
-if (isset($_GET['name']) && !empty($_GET['name']) ){
-$name = ($_GET['name']);
-$detailpays =  getPaysName($name);
-if ($detailpays) {
-    $villes = getVillesParPays($detailpays->Name);
-}
+if (isset($_GET['id']) && !empty($_GET['id']) ){
+    $id = ($_GET['id']);
+    $villes = getVilles($id);
+    $pays = getDetail($id);
 }
 ?>
+<link rel="stylesheet" href="css/style.css">
 <div class="container">
-    <?php if (isset($detailpays)): ?>
-        <h1>Villes les plus peuplées de <?php echo htmlspecialchars($detailpays->Name); ?></h1>
-
-        <?php if (!empty($villes)): ?>
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Ville</th>
-                        <th>Population</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <h1>Les Villes de <?php echo htmlspecialchars($pays->Name); ?></h1>
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Population</th>
+                <th>District</th>                
+            </tr>
+        </thead>
+        <tbody>
                     <?php foreach ($villes as $ville): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($ville->name); ?></td>
-                            <td><?php echo number_format($ville->population); ?></td>
+                            <td><?php echo htmlspecialchars($ville->Name); ?></td>
+                            <td><?php echo number_format($ville->Population); ?></td>
+                            <td><?php echo htmlspecialchars($ville->District); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-        <?php else: ?>
-            <p>Aucune ville trouvée pour ce pays.</p>
-        <?php endif; ?>
-    <?php else: ?>
-        <p>Pays non trouvé.</p>
-    <?php endif; ?>
+            
+      
+
 </div>
 
 <?php

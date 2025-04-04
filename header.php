@@ -61,9 +61,7 @@ $lesPays = getAllCountries();
         <li class="nav-item active">
           <a class="nav-link" href="index2.php">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
+       
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false">Continent</a>
@@ -85,10 +83,9 @@ $lesPays = getAllCountries();
               <?php endforeach ; ?>
               </div>
               </li>
-          
+              <li class="nav-item">
+        <a class="nav-link" href="EsperanceVie.php">Espérance de vie humaine <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="villes.php">Les villes les plus peuplées <span class="sr-only">(current)</span></a>
         </li>
      
       </ul>
